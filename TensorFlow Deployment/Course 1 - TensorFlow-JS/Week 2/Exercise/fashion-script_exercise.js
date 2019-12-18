@@ -6,22 +6,17 @@ var model;
 
 function getModel() {
     
-    // In the space below create a convolutional neural network that can classify the 
-    // images of articles of clothing in the Fashion MNIST dataset. Your convolutional
-    // neural network should only use the following layers: conv2d, maxPooling2d,
-    // flatten, and dense. Since the Fashion MNIST has 10 classes, your output layer
-    // should have 10 units and a softmax activation function. You are free to use as
-    // many layers, filters, and neurons as you like.  
-    // HINT: Take a look at the MNIST example.
     model = tf.sequential();
-    
-    // YOUR CODE HERE
-    
-    
-    // Compile the model using the categoricalCrossentropy loss,
-    // the tf.train.adam() optimizer, and accuracy for your metrics.
-    model.compile(// YOUR CODE HERE);
-    
+    model.add(tf.layers.conv2d({inputShape: [28, 28, 1], kernelSize: 3, filters: 8, activation: 'relu'}));
+	model.add(tf.layers.maxPooling2d({poolSize: [2, 2]}));
+	model.add(tf.layers.conv2d({filters: 16, kernelSize: 3, activation: 'relu'}));
+	model.add(tf.layers.maxPooling2d({poolSize: [2, 2]}));
+	model.add(tf.layers.flatten());
+	model.add(tf.layers.dense({units: 128, activation: 'relu'}));
+	model.add(tf.layers.dense({units: 10, activation: 'softmax'}));
+
+	model.compile({optimizer: tf.train.adam(), loss: 'categoricalCrossentropy', metrics: ['accuracy']});
+
     return model;
 }
 
